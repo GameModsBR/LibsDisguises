@@ -28,12 +28,6 @@ import me.libraryaddict.disguise.utilities.DisguiseUtilities;
 import me.libraryaddict.disguise.utilities.ReflectionManager;
 
 public class PacketListenerSounds extends PacketAdapter {
-    /**
-     * This is a fix for the stupidity that is
-     * "I can't separate the sounds from the sounds the player heard, and the sounds of the entity tracker heard"
-     */
-    private static boolean cancelSound;
-
     public PacketListenerSounds(LibsDisguises plugin) {
         super(plugin, ListenerPriority.NORMAL, Server.NAMED_SOUND_EFFECT, Server.ENTITY_STATUS);
     }
@@ -280,12 +274,6 @@ public class PacketListenerSounds extends PacketAdapter {
 
                 if (disSound.getSound(
                         soundType) == null || (disguise.isSelfDisguiseSoundsReplaced() && entity == event.getPlayer())) {
-                    if (disguise.isSelfDisguiseSoundsReplaced() && entity == event.getPlayer()) {
-                        cancelSound = !cancelSound;
-
-                        if (cancelSound)
-                            return;
-                    }
 
                     disSound = DisguiseSound.getType(disguise.getType().name());
 
@@ -313,12 +301,12 @@ public class PacketListenerSounds extends PacketAdapter {
                             if (disguise instanceof MobDisguise && !((MobDisguise) disguise).isAdult()) {
                                 pitch = (DisguiseUtilities.random.nextFloat() - DisguiseUtilities.random.nextFloat()) * 0.2F + 1.5F;
                             } else
-                                pitch = (DisguiseUtilities.random.nextFloat() - DisguiseUtilities.random.nextFloat()) * 0.2F + 1.0F;
+                                pitch = (DisguiseUtilities.random.nextFloat() - DisguiseUtilities.random.nextFloat()) * 0.2F + 1F;
 
                             if (disguise.getType() == DisguiseType.BAT)
                                 pitch *= 95F;
 
-                            pitch *= 63;
+                            pitch *= 1.63;
 
                             if (pitch < 0)
                                 pitch = 0;
